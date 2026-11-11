@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "Aurev",
+    "slug": "aurev",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/aurev-icon.png",
+    "scheme": "aurev",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "icon": "./assets/images/aurev-icon.png"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/aurev-icon.png",
+        "backgroundColor": "#100D16"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "single",
+      "favicon": "./assets/images/aurev-favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#100D16",
+          "image": "./assets/images/aurev-icon.png",
+          "imageWidth": 120
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Choose a photo for your local Aurev demo profile.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true,
+      "baseUrl": "/aurev"
+    }
+  }
+}

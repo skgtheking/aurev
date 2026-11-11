@@ -1,0 +1,83 @@
+import { StyleSheet } from "react-native";
+export const colors = {
+  bg: "#100D16",
+  surface: "#1B1524",
+  amethyst: "#281A35",
+  gold: "#B69A72",
+  ivory: "#F5F0EA",
+  rose: "#EED8CF",
+  muted: "#B3A9BA",
+  border: "#372D41",
+  danger: "#FFADA9",
+  success: "#ADD1B6",
+};
+export const fonts = {
+  body: "Inter_400Regular",
+  medium: "Inter_500Medium",
+  bold: "Inter_600SemiBold",
+  display: "CormorantGaramond_500Medium",
+};
+export const s = StyleSheet.create({
+  page: { flex: 1, backgroundColor: colors.bg },
+  content: {
+    width: "100%",
+    maxWidth: 720,
+    alignSelf: "center",
+    padding: 24,
+    gap: 22,
+    paddingBottom: 40,
+  },
+  row: { flexDirection: "row", alignItems: "center", gap: 12 },
+  between: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+  },
+  title: {
+    fontFamily: fonts.display,
+    fontSize: 42,
+    lineHeight: 46,
+    color: colors.ivory,
+  },
+  h2: { fontFamily: fonts.display, fontSize: 30, color: colors.ivory },
+  body: {
+    fontFamily: fonts.body,
+    fontSize: 14,
+    lineHeight: 23,
+    color: colors.muted,
+  },
+  text: {
+    fontFamily: fonts.body,
+    fontSize: 15,
+    lineHeight: 24,
+    color: colors.ivory,
+  },
+  eyebrow: {
+    fontFamily: fonts.medium,
+    fontSize: 10,
+    letterSpacing: 2.5,
+    color: colors.gold,
+    textTransform: "uppercase",
+  },
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: 20,
+    padding: 22,
+    gap: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  divider: { height: 1, backgroundColor: colors.border },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 12,
+    padding: 16,
+    color: colors.ivory,
+    backgroundColor: colors.surface,
+    fontFamily: fonts.body,
+    fontSize: 15,
+    minHeight: 52,
+  },
+});
