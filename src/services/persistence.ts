@@ -101,23 +101,32 @@ export function decode(raw: string | null, fallback: AppState): AppState {
       )
     )
       return fallback;
-    // Migrate v0.1 data without discarding saved chats, matches or likes.
-    const legacy: Record<string, string> = {
+    // Migrate old choices without erasing matches or conversation history.
+    const validIntentions = [
+      "Casual dating", "Short-term dating", "Long-term relationship",
+      "New friendships", "Platonic connections", "Still figuring it out",
+      "Open to marriage",
+    ] as const;
+    type AllowedIntention = (typeof validIntentions)[number];
+    const legacy: Record<string, AllowedIntention> = {
       "Life partner": "Open to marriage",
       "Long-term": "Long-term relationship",
       "Exploring": "Still figuring it out",
     };
-    const migrate = (value: string) => legacy[value] || value;
+    const migrate = (value: string): AllowedIntention =>
+      legacy[value] ||
+      validIntentions.find((item) => item === value) ||
+      "Still figuring it out";
     if (v.user && record(v.user)) {
-      v.user.intention = migrate(String(v.user.intention));
-      const choices = Array.isArray(v.user.intentions)
-        ? v.user.intentions.filter((x): x is string => typeof x === "string")
+      const choices: string[] = Array.isArray(v.user.intentions)
+        ? v.user.intentions.filter((item): item is AllowedIntention => typeof item === "string")
         : [String(v.user.intention)];
-      v.user.intentions = [...new Set(choices.map(migrate))];
-      if (!v.user.intentions.length) v.user.intentions = [String(v.user.intention)];
+      const migrated = [...new Set(choices.map(migrate))];
+      v.user.intentions = migrated.length ? migrated : [migrate(String(v.user.intention))];
       v.user.intention = v.user.intentions[0];
     }
-    if (record(v.filters)) v.filters.intention = migrate(String(v.filters.intention));
+    if (record(v.filters) && v.filters.intention !== "Any")
+      v.filters.intention = migrate(String(v.filters.intention));
     if (!record(v.dailyLikes) || typeof v.dailyLikes.date !== "string" || !strings(v.dailyLikes.ids)) {
       v.dailyLikes = { date: "", ids: [] };
     }
