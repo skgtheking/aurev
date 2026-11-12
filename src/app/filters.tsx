@@ -49,14 +49,14 @@ export default function Filters() {
       />
       <Notice>
         Reciprocal dating preferences are always respected. Privé adds a
-        long-term intention shortcut; basic filters remain available to
+        long-term relationship shortcut; basic filters remain available to
         everyone.
       </Notice>
       {state.prive && (
         <Button
           title="Privé: focus on long-term connections"
           variant="outline"
-          onPress={() => setFilters({ ...filters, intention: "Long-term" })}
+          onPress={() => setFilters({ ...filters, intention: "Long-term relationship" })}
         />
       )}{" "}
       {!!error && <Notice error>{error}</Notice>}
