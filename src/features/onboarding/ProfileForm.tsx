@@ -129,12 +129,19 @@ export function ProfileForm({
               )
             }
           />
-          <Label>I’m here for</Label>
+          <Label>What are you looking for? · Pick all that apply</Label>
           <Chips
             values={intentions}
-            selected={[value.intention]}
-            onSelect={(x) => set("intention", x)}
+            selected={value.intentions?.length ? value.intentions : [value.intention]}
+            onSelect={(x) => {
+              const previous = value.intentions?.length ? value.intentions : [value.intention];
+              const next = previous.includes(x)
+                ? previous.length > 1 ? previous.filter((item) => item !== x) : previous
+                : [...previous, x];
+              onChange({ ...value, intentions: next, intention: next[0] });
+            }}
           />
+          <Notice>Choose what genuinely fits you. You can change these later, and platonic connections are welcome.</Notice>
           <Notice>
             We only show people whose gender preferences include yours.
             Orientation is self-described and never inferred.
@@ -143,7 +150,7 @@ export function ProfileForm({
       )}
       {step === 2 && (
         <>
-          <Label>Your interests · choose at least two</Label>
+          <Label>Your interests · choose at least two · mix comfort-zone and adventure</Label>
           <Chips
             values={interests}
             selected={value.interests}
