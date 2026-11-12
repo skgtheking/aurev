@@ -5,6 +5,7 @@ import { Heart, SlidersHorizontal, Sparkles, X } from "lucide-react-native";
 import { useStore } from "../../store";
 import { profiles } from "../../data/profiles";
 import { eligible } from "../../utils/domain";
+import { canLike, dailyLikeCount, DAILY_LIKE_LIMIT } from "../../services/actions";
 import {
   Button,
   Empty,
@@ -30,7 +31,7 @@ export default function Discover() {
   const person = people[0];
   const act = (liked: boolean) => {
     if (!person) return;
-    if (liked && !state.prive && state.likes.length >= 10) {
+    if (liked && !canLike(state, person.id)) {
       setLimit(true);
       return;
     }
@@ -65,6 +66,7 @@ export default function Discover() {
           {people.length} possibilities
         </Text>
       </View>
+      <Text style={s.body}>{state.prive ? "Privé · unlimited likes" : `${Math.max(0, DAILY_LIKE_LIMIT - dailyLikeCount(state))} of ${DAILY_LIKE_LIMIT} complimentary likes left today`}</Text>
       {match ? (
         <View style={s.card}>
           <Heart color={c.gold} size={36} />
@@ -133,7 +135,7 @@ export default function Discover() {
       )}{" "}
       {limit && (
         <Notice>
-          Your 10 complimentary demo likes have been used.{" "}
+          You’ve used your 10 complimentary likes for today. Your allowance refreshes tomorrow.{" "}
           <Text onPress={() => router.push("/prive")} style={{ color: c.gold }}>
             Explore Privé for unlimited likes.
           </Text>
