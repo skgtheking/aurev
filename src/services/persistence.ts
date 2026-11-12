@@ -96,11 +96,40 @@ export function decode(raw: string | null, fallback: AppState): AppState {
       Number(f.minAge) > Number(f.maxAge) ||
       typeof f.city !== "string" ||
       !["Everyone", "Woman", "Man", "Non-binary"].includes(String(f.gender)) ||
-      !["Any", "Life partner", "Long-term", "Exploring"].includes(
+      !["Any", "Life partner", "Long-term", "Exploring", "Casual dating", "Short-term dating", "Long-term relationship", "New friendships", "Platonic connections", "Still figuring it out", "Open to marriage"].includes(
         String(f.intention),
       )
     )
       return fallback;
+    // Migrate old choices without erasing matches or conversation history.
+    const validIntentions = [
+      "Casual dating", "Short-term dating", "Long-term relationship",
+      "New friendships", "Platonic connections", "Still figuring it out",
+      "Open to marriage",
+    ] as const;
+    type AllowedIntention = (typeof validIntentions)[number];
+    const legacy: Record<string, AllowedIntention> = {
+      "Life partner": "Open to marriage",
+      "Long-term": "Long-term relationship",
+      "Exploring": "Still figuring it out",
+    };
+    const migrate = (value: string): AllowedIntention =>
+      legacy[value] ||
+      validIntentions.find((item) => item === value) ||
+      "Still figuring it out";
+    if (v.user && record(v.user)) {
+      const choices: string[] = Array.isArray(v.user.intentions)
+        ? v.user.intentions.filter((item): item is AllowedIntention => typeof item === "string")
+        : [String(v.user.intention)];
+      const migrated = [...new Set(choices.map(migrate))];
+      v.user.intentions = migrated.length ? migrated : [migrate(String(v.user.intention))];
+      v.user.intention = v.user.intentions[0];
+    }
+    if (record(v.filters) && v.filters.intention !== "Any")
+      v.filters.intention = migrate(String(v.filters.intention));
+    if (!record(v.dailyLikes) || typeof v.dailyLikes.date !== "string" || !strings(v.dailyLikes.ids)) {
+      v.dailyLikes = { date: "", ids: [] };
+    }
     return v as unknown as AppState;
   } catch {
     return fallback;

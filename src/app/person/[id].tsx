@@ -13,6 +13,7 @@ import {
   Portrait,
 } from "../../components/ui";
 import { age, reciprocal, zodiac } from "../../utils/domain";
+import { canLike } from "../../services/actions";
 import { s } from "../../theme";
 export default function PersonDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -88,7 +89,7 @@ export default function PersonDetail() {
           }
           disabled={liked || !reciprocal(state.user, person)}
           onPress={() => {
-            if (!state.prive && state.likes.length >= 10) {
+            if (!canLike(state, id)) {
               router.push("/prive");
               return;
             }

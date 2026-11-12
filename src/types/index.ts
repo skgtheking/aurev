@@ -1,5 +1,5 @@
 export type Gender = "Woman" | "Man" | "Non-binary";
-export type Intention = "Life partner" | "Long-term" | "Exploring";
+export type Intention = "Casual dating" | "Short-term dating" | "Long-term relationship" | "New friendships" | "Platonic connections" | "Still figuring it out" | "Open to marriage";
 export interface Person {
   id: string;
   name: string;
@@ -10,6 +10,7 @@ export interface Person {
   seeking: Gender[];
   city: string;
   intention: Intention;
+  intentions?: Intention[];
   interests: string[];
   bio: string;
   prompt: string;
@@ -55,6 +56,7 @@ export interface AppState {
   prive: boolean;
   incognito: boolean;
   likes: string[];
+  dailyLikes?: { date: string; ids: string[] };
   passes: string[];
   received: string[];
   matches: string[];

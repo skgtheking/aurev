@@ -5,6 +5,7 @@ export const initialState = (): AppState => ({
   prive: false,
   incognito: false,
   likes: [],
+  dailyLikes: { date: "", ids: [] },
   passes: [],
   received: ["p1", "p2", "p3", "p4", "p7", "p8"],
   matches: ["p5", "p6"],

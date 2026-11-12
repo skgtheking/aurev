@@ -41,7 +41,7 @@ export function eligible(
     (!filters.city.trim() ||
       person.city.toLowerCase().includes(filters.city.trim().toLowerCase())) &&
     (filters.gender === "Everyone" || person.gender === filters.gender) &&
-    (filters.intention === "Any" || person.intention === filters.intention)
+    (filters.intention === "Any" || (person.intentions?.length ? person.intentions : [person.intention]).includes(filters.intention))
   );
 }
 export const today = () => new Date().toISOString().slice(0, 10);
@@ -108,6 +108,7 @@ export function validatePerson(p: Person) {
     return "Enter a name between 2 and 40 characters.";
   if (p.city.trim().length < 2) return "Enter your city in India.";
   if (!p.seeking.length) return "Choose at least one dating preference.";
+  if (p.intentions && !p.intentions.length) return "Choose at least one connection intention.";
   if (p.interests.length < 2) return "Choose at least two interests.";
   if (p.bio.trim().length < 20)
     return "Tell us about yourself in at least 20 characters.";

@@ -1,0 +1,24 @@
+name: Aurev Quality Checks
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [feature/aurev-v0-2-feedback]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run export:web
+      - run: npm run test:pages

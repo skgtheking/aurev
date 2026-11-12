@@ -49,6 +49,30 @@ export const cities = [
   "Guwahati",
 ];
 export const interests = [
+  "Gym & fitness",
+  "Shopping",
+  "Kayaking",
+  "Cars & motorsports",
+  "Raves & festivals",
+  "Nightlife",
+  "Gaming",
+  "Spontaneous trips",
+  "Adventure sports",
+  "Cocktails",
+  "Dancing",
+  "Beach holidays",
+  "Trekking",
+  "Karaoke",
+  "Street food",
+  "Swimming",
+  "Running",
+  "Cycling",
+  "Badminton",
+  "Football",
+  "Cricket",
+  "Pilates",
+  "Fashion",
+  "Concerts",
   "Art & galleries",
   "Slow travel",
   "Coffee",
@@ -63,7 +87,10 @@ export const interests = [
   "Cooking",
 ];
 export const genders: Gender[] = ["Woman", "Man", "Non-binary"];
-export const intentions = ["Life partner", "Long-term", "Exploring"] as const;
+export const intentions = [
+  "Casual dating", "Short-term dating", "Long-term relationship",
+  "New friendships", "Platonic connections", "Still figuring it out", "Open to marriage",
+] as const;
 export const profiles: Person[] = names.map((name, i) => ({
   id: `p${i + 1}`,
   name,
@@ -83,11 +110,12 @@ export const profiles: Person[] = names.map((name, i) => ({
   orientation: ["Queer", "Bisexual", "Pansexual"][i % 3],
   seeking: [...genders],
   city: cities[i % cities.length],
-  intention: intentions[i % 3],
+  intention: intentions[i % intentions.length],
+  intentions: [intentions[i % intentions.length]],
   interests: [
-    interests[i % 12],
-    interests[(i + 3) % 12],
-    interests[(i + 5) % 12],
+    interests[i % interests.length],
+    interests[(i + 7) % interests.length],
+    interests[(i + 15) % interests.length],
   ],
   bio: [
     "Collecting little stories, long lunches and places with a view. Looking for someone who makes ordinary Sundays feel extraordinary.",
@@ -140,7 +168,8 @@ export const blankUser: Person = {
   orientation: "Prefer not to say",
   seeking: ["Man"],
   city: "",
-  intention: "Long-term",
+  intention: "Long-term relationship",
+  intentions: ["Long-term relationship"],
   interests: [],
   bio: "",
   prompt: "My idea of a perfect Sunday",
