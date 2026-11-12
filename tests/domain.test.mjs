@@ -92,15 +92,22 @@ test("like is idempotent and mutual match creates a single conversation", () => 
   assert.equal(b.chats.filter((c) => c.personId === "p1").length, 1);
   assert.ok(reaction(b, "p3", false).passes.includes("p3"));
 });
-test("free cap and blocked accounts cannot receive likes", () => {
-  const a = {
-    ...initialState(),
-    likes: Array.from({ length: 10 }, (_, i) => `x${i}`),
-  };
-  assert.equal(reaction(a, "p1", true), a);
-  assert.ok(reaction({ ...a, prive: true }, "p1", true).likes.includes("p1"));
-  const b = blockPerson(initialState(), "p1");
-  assert.equal(reaction(b, "p1", true), b);
+test("ten free likes per local day reset at midnight and Privé stays unlimited", async () => {
+  const { dailyLikeCount, canLike } = await import("../src/services/actions.ts");
+  const day1 = new Date("2026-11-11T12:00:00");
+  const day2 = new Date("2026-11-12T12:00:00");
+  let state = initialState();
+  for (let i = 0; i < 10; i++) state = reaction(state, `person-${i}`, true, day1);
+  assert.equal(dailyLikeCount(state, day1), 10);
+  assert.equal(canLike(state, "another", day1), false);
+  assert.equal(reaction(state, "another", true, day1), state);
+  assert.equal(dailyLikeCount(state, day2), 0);
+  const tomorrow = reaction(state, "another", true, day2);
+  assert.equal(dailyLikeCount(tomorrow, day2), 1);
+  assert.equal(tomorrow.likes.length, 11);
+  assert.ok(reaction({ ...state, prive: true }, "another", true, day1).likes.includes("another"));
+  const blocked = blockPerson(initialState(), "p1");
+  assert.equal(reaction(blocked, "p1", true), blocked);
 });
 test("block removes match and history and stores local report", () => {
   const a = blockPerson(initialState(), "p5", "Harassment");
@@ -165,4 +172,22 @@ test("queued persistence saves in order, survives failure, and hydrates latest s
   await Promise.all([save(a), save(b)]);
   assert.deepEqual(order, [1, 2]);
   assert.deepEqual(decode(raw, base), b);
+});
+
+test("legacy intentions and daily likes migrate while preserving demo state", () => {
+  const old = { ...initialState(), dailyLikes: undefined, user: {
+    ...demoUser,
+    intention: "Long-term",
+    intentions: undefined,
+  }, filters: { ...initialState().filters, intention: "Exploring" } };
+  const migrated = decode(encode(old), initialState());
+  assert.deepEqual(migrated.user.intentions, ["Long-term relationship"]);
+  assert.equal(migrated.filters.intention, "Still figuring it out");
+  assert.deepEqual(migrated.dailyLikes, { date: "", ids: [] });
+});
+test("multiple connection intentions work with discovery filtering", () => {
+  const person = { ...profiles[0], intentions: ["Casual dating", "Platonic connections"] };
+  const filters = { ...initialState().filters, intention: "Platonic connections" };
+  assert.equal(eligible(person, demoUser, filters, []), true);
+  assert.equal(eligible(person, demoUser, { ...filters, intention: "Open to marriage" }, []), false);
 });
