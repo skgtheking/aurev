@@ -23,11 +23,11 @@ export default function Prive() {
         </Text>
       </View>
       {[
-        ["Likes", "10 total likes in free demo · Unlimited with Privé"],
+        ["Likes", "10 likes per day in free demo · Unlimited with Privé"],
         ["See who’s curious", "Reveal fictional received likes with Privé"],
         [
           "Find your intention",
-          "Basic filters free · Privé adds a long-term shortcut",
+          "Basic filters free · Privé adds a relationship shortcut",
         ],
         ["Travel further", "2 saved journeys free · Unlimited with Privé"],
         ["A quieter presence", "Privé incognito preview, stored locally"],
