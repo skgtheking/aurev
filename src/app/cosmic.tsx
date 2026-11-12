@@ -60,19 +60,19 @@ export default function Cosmic() {
           }))} />
         </>
       ) : person && !person.astrology ? (
-        <Notice>This fictional profile hasn't opted in. Their astrology stays private.</Notice>
+        <Notice>This fictional profile hasn’t opted in. Their astrology stays private.</Notice>
       ) : available ? (
         <View style={[s.card, { gap: 12 }]}>
           <Heart color={c.gold} size={24} />
           <Label>BREAK THE ICE</Label>
-          <Text style={s.h2}>What's your most impulsive yes?</Text>
+          <Text style={s.h2}>What’s your most impulsive yes?</Text>
           <Text style={s.body}>
-            Or try: "Are we a spontaneous road-trip duo or a plan-it-all duo?"
+            Or try: “Are we a spontaneous road-trip duo or a plan-it-all duo?”
           </Text>
           {state.prive && (
             <>
               <Label>PRIVÉ · EXTRA SPARK</Label>
-              <Text style={s.body}>What's the green flag you notice before anyone else?</Text>
+              <Text style={s.body}>What’s the green flag you notice before anyone else?</Text>
             </>
           )}
         </View>
@@ -83,8 +83,8 @@ export default function Cosmic() {
         <Text style={s.h2}>The deeper cosmic rabbit hole.</Text>
         <Text style={s.body}>
           Rashi, Nakshatra, Kundli and Guna Milan are part of a rich tradition.
-          Accurate birth-chart calculations aren't available in this demo,
-          so we won't invent your placements or compatibility scores.
+          Accurate birth-chart calculations aren’t available in this demo,
+          so we won’t invent your placements or compatibility scores.
         </Text>
         <Text style={s.body}>Advanced Vedic features are coming later.</Text>
       </View>
