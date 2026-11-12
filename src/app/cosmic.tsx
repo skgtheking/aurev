@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
-import { Heart, Moon, Sparkles, Stars } from "lucide-react-native";
+import { Heart, Moon, Sparkles } from "lucide-react-native";
 import { useStore } from "../store";
 import { profiles } from "../data/profiles";
 import { Button, Empty, Label, Notice, Page } from "../components/ui";
