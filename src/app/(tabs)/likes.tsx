@@ -4,6 +4,7 @@ import { router } from "expo-router";
 import { useStore } from "../../store";
 import { profiles } from "../../data/profiles";
 import { eligible } from "../../utils/domain";
+import { canLike } from "../../services/actions";
 import { Button, Chips, Empty, Notice, Page } from "../../components/ui";
 import { PersonCard } from "../../features/discover/PersonCard";
 import { s } from "../../theme";
@@ -70,8 +71,12 @@ export default function Likes() {
               <Button
                 title="Like back · simulated match"
                 onPress={() => {
-                  react(p.id, true);
-                  setTab("Matches");
+                  if (canLike(state, p.id)) {
+                    react(p.id, true);
+                    setTab("Matches");
+                  } else {
+                    router.push("/prive");
+                  }
                 }}
               />
             ) : state.matches.includes(p.id) ? (
