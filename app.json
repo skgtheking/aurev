@@ -2,7 +2,7 @@
   "expo": {
     "name": "Aurev",
     "slug": "aurev",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "orientation": "portrait",
     "icon": "./assets/images/aurev-icon.png",
     "scheme": "aurev",
@@ -15,7 +15,10 @@
         "foregroundImage": "./assets/images/aurev-icon.png",
         "backgroundColor": "#100D16"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.skgtheking.aurev",
+      "versionCode": 2,
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "output": "single",
