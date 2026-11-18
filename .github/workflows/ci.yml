@@ -1,6 +1,8 @@
 name: Aurev pull request checks
 
 on:
+  push:
+    branches: [feature/aurev-v02-cofounder-feedback]
   pull_request:
     branches: [main]
   workflow_dispatch:
