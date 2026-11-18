@@ -4,6 +4,7 @@ import { useStore } from "../../store";
 import { Button, Label, Page, Portrait, RowLink } from "../../components/ui";
 import { age } from "../../utils/domain";
 import { s } from "../../theme";
+import { publicTypePreferences } from "../../utils/typePreferences";
 export default function Profile() {
   const { state } = useStore();
   const p = state.user;
@@ -25,6 +26,12 @@ export default function Profile() {
         </View>
       </View>
       <Text style={s.text}>{p.bio}</Text>
+      {p.showMyType && publicTypePreferences(p.typePreferences ?? []).length > 0 && (
+        <View style={s.card}>
+          <Label>MY TYPE · SHARED QUALITIES</Label>
+          <Text style={s.body}>{publicTypePreferences(p.typePreferences ?? []).join(" · ")}</Text>
+        </View>
+      )}
       <Button
         title="Edit your story"
         variant="outline"
