@@ -198,8 +198,8 @@ export function ProfileForm({
             placeholder="Something uniquely you"
           />
           <Button title="Add custom interest" variant="outline" onPress={() => {
-            const entry = customInterest.trim().replace(/\\s+/g, " ");
-            if (entry.length < 2 || entry.length > 40 || !/^[\\p{L}\\p{N} &+.'-]+$/u.test(entry)) {
+            const entry = customInterest.trim().replace(/\s+/g, " ");
+            if (entry.length < 2 || entry.length > 40 || !/^[\p{L}\p{N} &+.'-]+$/u.test(entry)) {
               onError("Use 2–40 letters or numbers for your custom interest.");
               return;
             }
