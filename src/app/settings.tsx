@@ -29,6 +29,11 @@ export default function Settings() {
         onPress={() => router.push("/edit-profile")}
       />
       <RowLink
+        title="My Type checklist"
+        subtitle="Edit your qualities, dealbreakers and visibility"
+        onPress={() => router.push("/my-type")}
+      />
+      <RowLink
         title="Discovery preferences"
         onPress={() => router.push("/filters")}
       />
@@ -111,7 +116,7 @@ export default function Settings() {
         </View>
       )}
       <Notice>
-        Aurev v0.1 · Adults 18+ · All India · Prototype only. Account deletion
+        Aurev v0.2 · Adults 18+ · All India · Prototype only. Account deletion
         clears your user details and messages, then reinitializes the fictional
         demo fixtures.
       </Notice>
