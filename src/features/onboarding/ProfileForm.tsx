@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { genders, interests, intentions } from "../../data/profiles";
+import { genders, interests, interestGroups, intentions } from "../../data/profiles";
 import type { Person } from "../../types";
 import {
   Button,
@@ -12,6 +12,7 @@ import {
   Portrait,
 } from "../../components/ui";
 import { s } from "../../theme";
+import { TYPE_OPTIONS } from "../../utils/typePreferences";
 export const sections = [
   "The essentials",
   "Your kind of connection",
@@ -31,6 +32,8 @@ export function ProfileForm({
   error: string;
   onError: (s: string) => void;
 }) {
+  const [interestSearch, setInterestSearch] = useState("");
+  const [customInterest, setCustomInterest] = useState("");
   const set = <K extends keyof Person>(k: K, v: Person[K]) =>
     onChange({ ...value, [k]: v });
   const pick = async () => {
@@ -151,18 +154,82 @@ export function ProfileForm({
       {step === 2 && (
         <>
           <Label>Your interests · choose at least two · mix comfort-zone and adventure</Label>
-          <Chips
-            values={interests}
-            selected={value.interests}
-            onSelect={(x) =>
-              set(
-                "interests",
-                value.interests.includes(x)
-                  ? value.interests.filter((i) => i !== x)
-                  : [...value.interests, x],
-              )
-            }
+          <Field
+            label="Find a hobby or vibe"
+            value={interestSearch}
+            onChangeText={setInterestSearch}
+            placeholder="Try café hopping, Pilates, matcha…"
           />
+          {Object.entries(interestGroups).map(([category, options]) => {
+            const matching = options.filter((item) =>
+              item.toLocaleLowerCase().includes(interestSearch.trim().toLocaleLowerCase())
+            );
+            if (!matching.length) return null;
+            return (
+              <View key={category} style={{ gap: 10 }}>
+                <Label>{category.toUpperCase()}</Label>
+                <Chips
+                  values={matching}
+                  selected={value.interests}
+                  onSelect={(x) =>
+                    set("interests", value.interests.includes(x)
+                      ? value.interests.filter((i) => i !== x)
+                      : [...value.interests, x])
+                  }
+                />
+              </View>
+            );
+          })}
+          {value.interests.filter((item) => !interests.includes(item)).length > 0 && (
+            <View style={{ gap: 8 }}>
+              <Label>YOUR OTHER INTERESTS</Label>
+              <Chips
+                values={value.interests.filter((item) => !interests.includes(item))}
+                selected={value.interests}
+                onSelect={(x) => set("interests", value.interests.filter((i) => i !== x))}
+              />
+            </View>
+          )}
+          <Field
+            label="Add your own interest"
+            value={customInterest}
+            maxLength={40}
+            onChangeText={setCustomInterest}
+            placeholder="Something uniquely you"
+          />
+          <Button title="Add custom interest" variant="outline" onPress={() => {
+            const entry = customInterest.trim().replace(/\s+/g, " ");
+            if (entry.length < 2 || entry.length > 40 || !/^[\p{L}\p{N} &+.'-]+$/u.test(entry)) {
+              onError("Use 2–40 letters or numbers for your custom interest.");
+              return;
+            }
+            if (value.interests.some((x) => x.toLocaleLowerCase() === entry.toLocaleLowerCase())) {
+              onError("You have already selected that interest.");
+              return;
+            }
+            set("interests", [...value.interests, entry]);
+            setCustomInterest("");
+            onError("");
+          }} />
+          <View style={{ gap: 12 }}>
+            <Label>MY TYPE · WHAT CATCHES YOUR EYE?</Label>
+            <Notice>Optional. These are qualities you appreciate, not judgments about people. Private by default; edit dealbreakers anytime from Profile → My Type.</Notice>
+            <Chips
+              values={TYPE_OPTIONS}
+              selected={value.typePreferences ?? []}
+              onSelect={(x) => {
+                const old = value.typePreferences ?? [];
+                const next = old.includes(x) ? old.filter((item) => item !== x) : [...old, x];
+                onChange({ ...value, typePreferences: next, typeDealbreakers: (value.typeDealbreakers ?? []).filter((item) => next.includes(item)) });
+              }}
+            />
+            <Label>DISPLAY YOUR NON-SENSITIVE CHOICES?</Label>
+            <Chips
+              values={["Keep private", "Show safe traits"]}
+              selected={[value.showMyType ? "Show safe traits" : "Keep private"]}
+              onSelect={(x) => set("showMyType", x === "Show safe traits")}
+            />
+          </View>
           <Field
             label="A little about you · 20+ characters"
             multiline

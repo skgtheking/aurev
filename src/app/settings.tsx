@@ -5,6 +5,8 @@ import { useStore } from "../store";
 import { profiles } from "../data/profiles";
 import { Button, Label, Notice, Page, RowLink } from "../components/ui";
 import { s } from "../theme";
+import { Platform } from "react-native";
+import { playOpeningSound } from "../utils/sound";
 export default function Settings() {
   const { state, update, reset } = useStore();
   const [confirm, setConfirm] = useState("");
@@ -24,9 +26,20 @@ export default function Settings() {
         account security. Use fictional information.
       </Notice>
       <Label>YOUR PREFERENCES</Label>
+      <View style={s.card}>
+        <Label>AUREV OPENING SOUND</Label>
+        <Text style={s.body}>An original, subtle three-note welcome sound. Off by default, plays only when you choose to enter the demo. Web preview supported; native audio is not enabled yet.</Text>
+        <Button title={state.soundEnabled ? "Turn opening sound off" : "Turn opening sound on"} variant="outline" onPress={() => update((v) => ({ ...v, soundEnabled: !v.soundEnabled }))} />
+        {Platform.OS === "web" && <Button title="Preview welcome sound" variant="quiet" onPress={playOpeningSound} />}
+      </View>
       <RowLink
         title="Edit profile & identity"
         onPress={() => router.push("/edit-profile")}
+      />
+      <RowLink
+        title="My Type checklist"
+        subtitle="Edit your qualities, dealbreakers and visibility"
+        onPress={() => router.push("/my-type")}
       />
       <RowLink
         title="Discovery preferences"
@@ -111,7 +124,7 @@ export default function Settings() {
         </View>
       )}
       <Notice>
-        Aurev v0.1 · Adults 18+ · All India · Prototype only. Account deletion
+        Aurev v0.2 · Adults 18+ · All India · Prototype only. Account deletion
         clears your user details and messages, then reinitializes the fictional
         demo fixtures.
       </Notice>

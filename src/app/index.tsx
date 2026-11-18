@@ -5,6 +5,7 @@ import { useStore } from "../store";
 import { demoUser } from "../data/profiles";
 import { Button, Label, Page, Portrait } from "../components/ui";
 import { colors as c, fonts, s } from "../theme";
+import { playOpeningSound } from "../utils/sound";
 export default function Welcome() {
   const { state, complete, update } = useStore();
   if (state.user && !state.signedOut) return <Redirect href="/(tabs)" />;
@@ -53,18 +54,18 @@ export default function Welcome() {
       {state.user ? (
         <Button
           title={`Welcome back, ${state.user.name}`}
-          onPress={() => update((v) => ({ ...v, signedOut: false }))}
+          onPress={() => { if (state.soundEnabled) playOpeningSound(); update((v) => ({ ...v, signedOut: false })); }}
         />
       ) : (
         <Button
           title="Begin your story  ↗"
-          onPress={() => router.push("/onboarding")}
+          onPress={() => { if (state.soundEnabled) playOpeningSound(); router.push("/onboarding"); }}
         />
       )}
       <Button
         title="Explore the fictional demo"
         variant="outline"
-        onPress={() => complete(demoUser)}
+        onPress={() => { if (state.soundEnabled) playOpeningSound(); complete(demoUser); }}
       />
       <Text style={{ ...s.body, fontSize: 11, textAlign: "center" }}>
         18+ only · Local prototype · No real people or purchases.{"\n"}Your demo

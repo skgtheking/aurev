@@ -4,6 +4,7 @@ export const initialState = (): AppState => ({
   signedOut: false,
   prive: false,
   incognito: false,
+  soundEnabled: false,
   likes: [],
   dailyLikes: { date: "", ids: [] },
   passes: [],

@@ -35,6 +35,7 @@ function Routes() {
             "prive",
             "safety",
             "settings",
+            "my-type",
           ].map((name) => (
             <Stack.Screen key={name} name={name} />
           ))}

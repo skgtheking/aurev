@@ -48,44 +48,14 @@ export const cities = [
   "Indore",
   "Guwahati",
 ];
-export const interests = [
-  "Gym & fitness",
-  "Shopping",
-  "Kayaking",
-  "Cars & motorsports",
-  "Raves & festivals",
-  "Nightlife",
-  "Gaming",
-  "Spontaneous trips",
-  "Adventure sports",
-  "Cocktails",
-  "Dancing",
-  "Beach holidays",
-  "Trekking",
-  "Karaoke",
-  "Street food",
-  "Swimming",
-  "Running",
-  "Cycling",
-  "Badminton",
-  "Football",
-  "Cricket",
-  "Pilates",
-  "Fashion",
-  "Concerts",
-  "Art & galleries",
-  "Slow travel",
-  "Coffee",
-  "Live music",
-  "Books",
-  "Food trails",
-  "Hiking",
-  "Cinema",
-  "Design",
-  "Yoga",
-  "Photography",
-  "Cooking",
-];
+/** Featured interests are deliberately curated; older saved interests are preserved. */
+export const interestGroups = {
+  "City & culture": ["Café hopping", "Matcha", "Art & galleries", "Fashion", "Shopping", "Concerts", "Live music", "Cinema", "Books", "Photography", "Design", "Karaoke"],
+  "Active & outdoors": ["Pilates", "Gym & fitness", "Kayaking", "Adventure sports", "Trekking", "Swimming", "Running", "Cycling", "Badminton", "Football", "Cricket", "Yoga"],
+  "Trips & experiences": ["Spontaneous trips", "Beach holidays", "Slow travel", "Cars & motorsports", "Raves & festivals", "Street food", "Food trails", "Cooking"],
+  "At home & personality": ["Gaming", "Coffee", "Venting", "Creative writing", "Podcasts", "Board games", "Film marathons"],
+} as const;
+export const interests: string[] = [...new Set(Object.values(interestGroups).flat())];
 export const genders: Gender[] = ["Woman", "Man", "Non-binary"];
 export const intentions = [
   "Casual dating", "Short-term dating", "Long-term relationship",

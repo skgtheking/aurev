@@ -12,6 +12,11 @@ export interface Person {
   intention: Intention;
   intentions?: Intention[];
   interests: string[];
+  /** Optional qualities sought in a connection, separate from personal hobbies. */
+  typePreferences?: string[];
+  typeDealbreakers?: string[];
+  /** Off by default; sensitive traits are never shown on public profile cards. */
+  showMyType?: boolean;
   bio: string;
   prompt: string;
   answer: string;
@@ -57,6 +62,7 @@ export interface AppState {
   incognito: boolean;
   likes: string[];
   dailyLikes?: { date: string; ids: string[] };
+  soundEnabled?: boolean;
   passes: string[];
   received: string[];
   matches: string[];
