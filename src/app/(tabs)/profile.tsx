@@ -48,6 +48,11 @@ export default function Profile() {
           onPress={() => router.push("/cosmic")}
         />
         <RowLink
+          title="My Type"
+          subtitle="What matters in a connection · private by default"
+          onPress={() => router.push("/my-type")}
+        />
+        <RowLink
           title="Your preferences"
           onPress={() => router.push("/filters")}
         />
