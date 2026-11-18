@@ -12,6 +12,7 @@ import {
   Portrait,
 } from "../../components/ui";
 import { s } from "../../theme";
+import { TYPE_OPTIONS } from "../../utils/typePreferences";
 export const sections = [
   "The essentials",
   "Your kind of connection",
@@ -210,6 +211,25 @@ export function ProfileForm({
             setCustomInterest("");
             onError("");
           }} />
+          <View style={{ gap: 12 }}>
+            <Label>MY TYPE · WHAT CATCHES YOUR EYE?</Label>
+            <Notice>Optional. These are qualities you appreciate, not judgments about people. Private by default; edit dealbreakers anytime from Profile → My Type.</Notice>
+            <Chips
+              values={TYPE_OPTIONS}
+              selected={value.typePreferences ?? []}
+              onSelect={(x) => {
+                const old = value.typePreferences ?? [];
+                const next = old.includes(x) ? old.filter((item) => item !== x) : [...old, x];
+                onChange({ ...value, typePreferences: next, typeDealbreakers: (value.typeDealbreakers ?? []).filter((item) => next.includes(item)) });
+              }}
+            />
+            <Label>DISPLAY YOUR NON-SENSITIVE CHOICES?</Label>
+            <Chips
+              values={["Keep private", "Show safe traits"]}
+              selected={[value.showMyType ? "Show safe traits" : "Keep private"]}
+              onSelect={(x) => set("showMyType", x === "Show safe traits")}
+            />
+          </View>
           <Field
             label="A little about you · 20+ characters"
             multiline
