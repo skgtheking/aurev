@@ -3,19 +3,8 @@ import { Text, View } from "react-native";
 import { useStore } from "../store";
 import { Button, Chips, Label, Notice, Page } from "../components/ui";
 import { s } from "../theme";
+import { TYPE_OPTIONS, publicTypePreferences } from "../utils/typePreferences";
 
-export const TYPE_OPTIONS = [
-  "Emotionally available", "Green flag energy", "Red flag energy",
-  "Baddie energy", "Safe space", "Good communicator",
-  "Adventurous", "Loyal", "Ambitious", "Funny",
-  "Playful & flirty", "Great listener", "Kinky",
-  "Thoughtful", "Independent", "Spontaneous",
-] as const;
-const PRIVATE_TRAITS = new Set(["Kinky"]);
-/** Sensitive preferences never appear in publicly visible My Type summaries. */
-export function publicTypePreferences(items: readonly string[]) {
-  return items.filter((x) => !PRIVATE_TRAITS.has(x));
-}
 export default function MyType() {
   const { state, update } = useStore();
   const user = state.user;
