@@ -62,6 +62,7 @@ export interface AppState {
   incognito: boolean;
   likes: string[];
   dailyLikes?: { date: string; ids: string[] };
+  soundEnabled?: boolean;
   passes: string[];
   received: string[];
   matches: string[];
