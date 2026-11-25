@@ -16,6 +16,8 @@ export const initialState = (): AppState => ({
   filters: {
     minAge: 18,
     maxAge: 55,
+    minHeightCm: 140,
+    maxHeightCm: 210,
     city: "",
     gender: "Everyone",
     intention: "Any",
