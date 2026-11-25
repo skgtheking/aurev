@@ -111,7 +111,7 @@ export default function Filters() {
         onPress={() => {
           const low = Number(min),
             high = Number(max),
-            lowHeight = Number(minHeight),
+            lowHeight = heightUnit === "cm" ? Number(minHeight) : feetInchesToCentimeters(minHeightFeet, minHeightInches),
             highHeight = heightUnit === "cm" ? Number(maxHeight) : feetInchesToCentimeters(maxHeightFeet, maxHeightInches);
           if (
             !Number.isInteger(low) ||
