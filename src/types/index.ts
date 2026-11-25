@@ -1,3 +1,4 @@
+export type HeightUnit = "ft/in" | "cm";
 export type Gender = "Woman" | "Man" | "Non-binary";
 export type Intention = "Casual dating" | "Short-term dating" | "Long-term relationship" | "New friendships" | "Platonic connections" | "Still figuring it out" | "Open to marriage";
 export interface Person {
@@ -30,6 +31,7 @@ export interface Filters {
   maxAge: number;
   minHeightCm: number;
   maxHeightCm: number;
+  heightUnit: HeightUnit;
   city: string;
   gender: Gender | "Everyone";
   intention: Intention | "Any";
