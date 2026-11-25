@@ -30,7 +30,7 @@ export function PersonCard({
           <View style={s.row}>
             <MapPin size={12} color={c.gold} />
             <Text style={{ ...s.body, fontSize: 12 }}>
-              {person.city} · {person.pronouns}
+              {person.city} · {person.pronouns}{person.heightCm ? " · " + person.heightCm + " cm" : ""}
             </Text>
           </View>
         </View>
