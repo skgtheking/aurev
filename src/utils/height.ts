@@ -1,4 +1,4 @@
-export type HeightUnit = "ft/in" | "cm";
+import type { HeightUnit } from "../types";
 
 export function centimetersToFeetInches(cm: number | undefined) {
   if (cm === undefined || !Number.isFinite(cm)) return { feet: "", inches: "" };
