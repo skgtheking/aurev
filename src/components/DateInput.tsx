@@ -38,7 +38,7 @@ export function DateInput({ label, value, onChange }: { label: string; value: st
     const initial = selected || { year: new Date().getFullYear() - 25, month: new Date().getMonth(), day: 1 };
     return { year: initial.year, month: initial.month };
   });
-  useEffect(() => setText(displayDate(value)), [value]);
+  useEffect(() => { if (value) setText(displayDate(value)); }, [value]);
   const earliest = useMemo(() => {
     const now = new Date();
     const latest = new Date(now.getFullYear() - 18, now.getMonth(), now.getDate());
@@ -83,7 +83,7 @@ export function DateInput({ label, value, onChange }: { label: string; value: st
             const next = mask(input);
             setText(next);
             const parsed = parse(next);
-            if (parsed) onChange(parsed);
+            onChange(parsed);
           }}
           maxLength={10}
           style={[s.input, { flex: 1 }]}
