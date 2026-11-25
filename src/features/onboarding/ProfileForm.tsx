@@ -85,7 +85,7 @@ export function ProfileForm({
             value={value.heightCm === undefined ? "" : String(value.heightCm)}
             onChangeText={(x) => {
               const height = Number(x);
-              set("heightCm", x.trim() && Number.isInteger(height) ? height : undefined);
+              set("heightCm", x.trim().length > 0 && Number.isInteger(height) ? height : undefined);
             }}
             placeholder="e.g. 168"
             keyboardType="number-pad"
