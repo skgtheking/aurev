@@ -18,6 +18,7 @@ export const initialState = (): AppState => ({
     maxAge: 55,
     minHeightCm: 140,
     maxHeightCm: 210,
+    heightUnit: "ft/in",
     city: "",
     gender: "Everyone",
     intention: "Any",
