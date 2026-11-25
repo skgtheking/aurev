@@ -1,5 +1,3 @@
-import type { HeightUnit } from "../types";
-
 export function centimetersToFeetInches(cm: number | undefined) {
   if (cm === undefined || !Number.isFinite(cm)) return { feet: "", inches: "" };
   const totalInches = Math.round(cm / 2.54);
