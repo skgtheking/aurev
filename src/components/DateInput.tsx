@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react-native";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { colors as c, fonts, s } from "../theme";
@@ -38,7 +38,6 @@ export function DateInput({ label, value, onChange }: { label: string; value: st
     const initial = selected || { year: new Date().getFullYear() - 25, month: new Date().getMonth(), day: 1 };
     return { year: initial.year, month: initial.month };
   });
-  useEffect(() => { if (value) setText(displayDate(value)); }, [value]);
   const earliest = useMemo(() => {
     const now = new Date();
     const latest = new Date(now.getFullYear() - 18, now.getMonth(), now.getDate());
