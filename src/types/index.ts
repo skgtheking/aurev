@@ -4,6 +4,7 @@ export interface Person {
   id: string;
   name: string;
   dob: string;
+  heightCm?: number;
   gender: Gender;
   pronouns: string;
   orientation: string;
@@ -27,6 +28,8 @@ export interface Person {
 export interface Filters {
   minAge: number;
   maxAge: number;
+  minHeightCm: number;
+  maxHeightCm: number;
   city: string;
   gender: Gender | "Everyone";
   intention: Intention | "Any";

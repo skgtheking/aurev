@@ -8,6 +8,8 @@ export default function Filters() {
   const [filters, setFilters] = useState(state.filters);
   const [min, setMin] = useState(String(filters.minAge));
   const [max, setMax] = useState(String(filters.maxAge));
+  const [minHeight, setMinHeight] = useState(String(filters.minHeightCm));
+  const [maxHeight, setMaxHeight] = useState(String(filters.maxHeightCm));
   const [error, setError] = useState("");
   return (
     <Page back title="Your kind of possibility" kicker="DISCOVERY PREFERENCES">
@@ -22,6 +24,18 @@ export default function Filters() {
         keyboardType="number-pad"
         value={max}
         onChangeText={setMax}
+      />
+      <Field
+        label="Minimum height · cm"
+        keyboardType="number-pad"
+        value={minHeight}
+        onChangeText={setMinHeight}
+      />
+      <Field
+        label="Maximum height · cm"
+        keyboardType="number-pad"
+        value={maxHeight}
+        onChangeText={setMaxHeight}
       />
       <Field
         label="City · blank for all India"
@@ -64,7 +78,9 @@ export default function Filters() {
         title="Save preferences"
         onPress={() => {
           const low = Number(min),
-            high = Number(max);
+            high = Number(max),
+            lowHeight = Number(minHeight),
+            highHeight = Number(maxHeight);
           if (
             !Number.isInteger(low) ||
             !Number.isInteger(high) ||
@@ -77,9 +93,13 @@ export default function Filters() {
             );
             return;
           }
+          if (!Number.isInteger(lowHeight) || !Number.isInteger(highHeight) || lowHeight < 120 || highHeight > 230 || lowHeight > highHeight) {
+            setError("Choose whole heights from 120 to 230 cm, with minimum no greater than maximum.");
+            return;
+          }
           update((v) => ({
             ...v,
-            filters: { ...filters, minAge: low, maxAge: high },
+            filters: { ...filters, minAge: low, maxAge: high, minHeightCm: lowHeight, maxHeightCm: highHeight },
           }));
           router.back();
         }}
@@ -90,9 +110,13 @@ export default function Filters() {
         onPress={() => {
           setMin("18");
           setMax("55");
+          setMinHeight("140");
+          setMaxHeight("210");
           setFilters({
             minAge: 18,
             maxAge: 55,
+            minHeightCm: 140,
+            maxHeightCm: 210,
             city: "",
             gender: "Everyone",
             intention: "Any",

@@ -38,6 +38,7 @@ export function eligible(
     !blocked.includes(person.id) &&
     n >= filters.minAge &&
     n <= filters.maxAge &&
+    (person.heightCm === undefined || (person.heightCm >= filters.minHeightCm && person.heightCm <= filters.maxHeightCm)) &&
     (!filters.city.trim() ||
       person.city.toLowerCase().includes(filters.city.trim().toLowerCase())) &&
     (filters.gender === "Everyone" || person.gender === filters.gender) &&

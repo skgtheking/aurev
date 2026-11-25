@@ -65,6 +65,7 @@ export const profiles: Person[] = names.map((name, i) => ({
   id: `p${i + 1}`,
   name,
   dob: `${1991 + (i % 10)}-${String((i % 12) + 1).padStart(2, "0")}-${String((i % 25) + 1).padStart(2, "0")}`,
+  heightCm: 150 + (i % 41),
   gender:
     i === 6 || i === 11 || i === 25 || i === 29
       ? "Non-binary"
@@ -152,6 +153,7 @@ export const demoUser: Person = {
   ...blankUser,
   name: "Aarya",
   dob: "1998-05-16",
+  heightCm: 165,
   city: "Mumbai",
   seeking: [...genders],
   interests: ["Art & galleries", "Slow travel", "Coffee"],
