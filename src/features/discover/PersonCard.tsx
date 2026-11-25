@@ -4,6 +4,7 @@ import { Pressable, Text, View } from "react-native";
 import type { Person } from "../../types";
 import { Portrait, Label } from "../../components/ui";
 import { age } from "../../utils/domain";
+import { formatHeight } from "../../utils/height";
 import { colors as c, s } from "../../theme";
 export function PersonCard({
   person,
@@ -30,7 +31,7 @@ export function PersonCard({
           <View style={s.row}>
             <MapPin size={12} color={c.gold} />
             <Text style={{ ...s.body, fontSize: 12 }}>
-              {person.city} · {person.pronouns}{person.heightCm ? " · " + person.heightCm + " cm" : ""}
+              {person.city} · {person.pronouns}{person.heightCm ? " · " + formatHeight(person.heightCm) : ""}
             </Text>
           </View>
         </View>

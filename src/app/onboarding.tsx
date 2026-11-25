@@ -17,7 +17,7 @@ export default function Onboarding() {
     if (step === 0) {
       if (!adult(person.dob))
         issue = "Enter a valid birth date. You must be at least 18.";
-      else if (person.heightCm !== undefined && (person.heightCm < 120 || person.heightCm > 230))
+      else if (person.heightCm !== undefined && (!Number.isFinite(person.heightCm) || person.heightCm < 120 || person.heightCm > 230))
         issue = "Enter a height between 120 and 230 cm, or leave it blank.";
       else if (person.name.trim().length < 2 || person.city.trim().length < 2)
         issue = "Add your name and city to continue."

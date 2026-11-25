@@ -14,6 +14,8 @@ import {
 import { s } from "../../theme";
 import { DateInput } from "../../components/DateInput";
 import { TYPE_OPTIONS } from "../../utils/typePreferences";
+import type { HeightUnit } from "../../types";
+import { centimetersToFeetInches, feetInchesToCentimeters } from "../../utils/height";
 export const sections = [
   "The essentials",
   "Your kind of connection",
@@ -35,6 +37,31 @@ export function ProfileForm({
 }) {
   const [interestSearch, setInterestSearch] = useState("");
   const [customInterest, setCustomInterest] = useState("");
+  const [heightUnit, setHeightUnit] = useState<HeightUnit>("ft/in");
+  const startingHeight = centimetersToFeetInches(value.heightCm);
+  const [heightCmInput, setHeightCmInput] = useState(value.heightCm ? String(value.heightCm) : "");
+  const [heightFeet, setHeightFeet] = useState(startingHeight.feet);
+  const [heightInches, setHeightInches] = useState(startingHeight.inches);
+  const changeHeightUnit = (unit: HeightUnit) => {
+    if (unit === heightUnit) return;
+    if (unit === "cm") {
+      const cm = feetInchesToCentimeters(heightFeet, heightInches);
+      setHeightCmInput(cm === null ? "" : String(cm));
+      set("heightCm", cm ?? (heightFeet || heightInches ? Number.NaN : undefined));
+    } else {
+      const parts = centimetersToFeetInches(heightCmInput.trim() && Number.isFinite(Number(heightCmInput)) ? Number(heightCmInput) : undefined);
+      setHeightFeet(parts.feet);
+      setHeightInches(parts.inches);
+      set("heightCm", heightCmInput.trim() ? Number(heightCmInput) : undefined);
+    }
+    setHeightUnit(unit);
+  };
+  const updateImperialHeight = (feet: string, inches: string) => {
+    setHeightFeet(feet);
+    setHeightInches(inches);
+    if (!feet.trim() && !inches.trim()) set("heightCm", undefined);
+    else set("heightCm", feetInchesToCentimeters(feet, inches) ?? Number.NaN);
+  };
   const set = <K extends keyof Person>(k: K, v: Person[K]) =>
     onChange({ ...value, [k]: v });
   const pick = async () => {
@@ -80,17 +107,30 @@ export function ProfileForm({
             value={value.dob}
             onChange={(dob) => set("dob", dob)}
           />
-          <Field
-            label="Height in cm · optional"
-            value={value.heightCm === undefined ? "" : String(value.heightCm)}
-            onChangeText={(x) => {
-              const height = Number(x);
-              set("heightCm", x.trim().length > 0 && Number.isInteger(height) ? height : undefined);
-            }}
-            placeholder="e.g. 168"
-            keyboardType="number-pad"
-            maxLength={3}
-          />
+          <Label>Your height · optional</Label>
+          <Chips values={["ft/in", "cm"] as const} selected={[heightUnit]} onSelect={changeHeightUnit} />
+          {heightUnit === "cm" ? (
+            <Field
+              label="Height · cm"
+              value={heightCmInput}
+              onChangeText={(x) => {
+                setHeightCmInput(x);
+                set("heightCm", !x.trim() ? undefined : Number.isInteger(Number(x)) ? Number(x) : Number.NaN);
+              }}
+              placeholder="e.g. 168"
+              keyboardType="number-pad"
+              maxLength={3}
+            />
+          ) : (
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <View style={{ flex: 1 }}>
+                <Field label="Height · feet" value={heightFeet} onChangeText={(x) => updateImperialHeight(x, heightInches)} placeholder="5" keyboardType="number-pad" maxLength={1} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Field label="Height · inches" value={heightInches} onChangeText={(x) => updateImperialHeight(heightFeet, x)} placeholder="6" keyboardType="number-pad" maxLength={2} />
+              </View>
+            </View>
+          )}
           <Field
             label="Home city in India"
             value={value.city}

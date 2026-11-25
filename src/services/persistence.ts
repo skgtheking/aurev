@@ -90,6 +90,7 @@ export function decode(raw: string | null, fallback: AppState): AppState {
     if (record(f)) {
       f.minHeightCm = Number.isInteger(f.minHeightCm) ? f.minHeightCm : fallback.filters.minHeightCm;
       f.maxHeightCm = Number.isInteger(f.maxHeightCm) ? f.maxHeightCm : fallback.filters.maxHeightCm;
+      f.heightUnit = f.heightUnit === "cm" || f.heightUnit === "ft/in" ? f.heightUnit : fallback.filters.heightUnit;
     }
     if (
       !record(f) ||
@@ -99,6 +100,7 @@ export function decode(raw: string | null, fallback: AppState): AppState {
       Number(f.maxAge) > 120 ||
       !Number.isInteger(f.minHeightCm) ||
       !Number.isInteger(f.maxHeightCm) ||
+      !["ft/in", "cm"].includes(String(f.heightUnit)) ||
       Number(f.minHeightCm) < 120 ||
       Number(f.maxHeightCm) > 230 ||
       Number(f.minHeightCm) > Number(f.maxHeightCm) ||
