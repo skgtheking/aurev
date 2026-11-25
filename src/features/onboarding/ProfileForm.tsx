@@ -12,6 +12,7 @@ import {
   Portrait,
 } from "../../components/ui";
 import { s } from "../../theme";
+import { DateInput } from "../../components/DateInput";
 import { TYPE_OPTIONS } from "../../utils/typePreferences";
 export const sections = [
   "The essentials",
@@ -74,13 +75,21 @@ export function ProfileForm({
             onChangeText={(x) => set("name", x)}
             placeholder="What should we call you?"
           />
-          <Field
-            label="Date of birth · YYYY-MM-DD · private"
+          <DateInput
+            label="Date of birth · MM/DD/YYYY · private"
             value={value.dob}
-            onChangeText={(x) => set("dob", x)}
-            placeholder="1998-05-16"
-            keyboardType="numbers-and-punctuation"
-            maxLength={10}
+            onChange={(dob) => set("dob", dob)}
+          />
+          <Field
+            label="Height in cm · optional"
+            value={value.heightCm === undefined ? "" : String(value.heightCm)}
+            onChangeText={(x) => {
+              const height = Number(x);
+              set("heightCm", x.trim() && Number.isInteger(height) ? height : undefined);
+            }}
+            placeholder="e.g. 168"
+            keyboardType="number-pad"
+            maxLength={3}
           />
           <Field
             label="Home city in India"
