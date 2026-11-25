@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { HeightUnit } from "../types";
 import { centimetersToFeetInches, feetInchesToCentimeters } from "../utils/height";
 import { router } from "expo-router";
+import { View } from "react-native";
 import { Button, Chips, Field, Label, Notice, Page } from "../components/ui";
 import { genders, intentions } from "../data/profiles";
 import { useStore } from "../store";
