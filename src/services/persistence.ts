@@ -87,12 +87,21 @@ export function decode(raw: string | null, fallback: AppState): AppState {
     )
       return fallback;
     const f = v.filters;
+    if (record(f)) {
+      f.minHeightCm = Number.isInteger(f.minHeightCm) ? f.minHeightCm : fallback.filters.minHeightCm;
+      f.maxHeightCm = Number.isInteger(f.maxHeightCm) ? f.maxHeightCm : fallback.filters.maxHeightCm;
+    }
     if (
       !record(f) ||
       !Number.isInteger(f.minAge) ||
       !Number.isInteger(f.maxAge) ||
       Number(f.minAge) < 18 ||
       Number(f.maxAge) > 120 ||
+      !Number.isInteger(f.minHeightCm) ||
+      !Number.isInteger(f.maxHeightCm) ||
+      Number(f.minHeightCm) < 120 ||
+      Number(f.maxHeightCm) > 230 ||
+      Number(f.minHeightCm) > Number(f.maxHeightCm) ||
       Number(f.minAge) > Number(f.maxAge) ||
       typeof f.city !== "string" ||
       !["Everyone", "Woman", "Man", "Non-binary"].includes(String(f.gender)) ||
